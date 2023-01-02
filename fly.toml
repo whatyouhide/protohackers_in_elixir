@@ -25,6 +25,14 @@ interval = "15s"
 restart_limit = 0
 timeout = "2s"
 
+[[services]]
+internal_port = 5002
+protocol = "tcp"
+
+[[services.ports]]
+handlers = []
+port = 5002
+
 [services.concurrency]
 hard_limit = 25
 soft_limit = 20
