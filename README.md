@@ -1,21 +1,27 @@
-# Protohackers
+# Protohackers in Elixir
 
-**TODO: Add description**
+This repository contains the code for the video series I'm making, focused on
+solving the [Protohackers] network challenges in Elixir.
 
-## Installation
+You can find the video series on [my YouTube channel][youtube-channel], starting
+from the first video:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `protohackers` to your list of dependencies in `mix.exs`:
+[![Thumbnail for the first video]()][first-video]
 
-```elixir
-def deps do
-  [
-    {:protohackers, "~> 0.1.0"}
-  ]
-end
+## Running Locally
+
+You can run this application locally by cloning the repository and running:
+
+```shell
+mix deps.get
+mix run --no-halt
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/protohackers>.
+## Deploying
 
+I'm deploying this application on [Fly.io][fly].
+
+[Protohackers]: https://protohackers.com
+[first-video]: https://youtu.be/owz50_NYIZ8
+[youtube-channel]: https://www.youtube.com/channel/UCiaFBwlunX1m8FKwZQ1GOSA
+[fly]: https://fly.io
