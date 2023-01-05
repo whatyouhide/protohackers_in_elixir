@@ -19,12 +19,6 @@ protocol = "tcp"
 handlers = []
 port = 5001
 
-[[services.tcp_checks]]
-grace_period = "1s"
-interval = "15s"
-restart_limit = 0
-timeout = "2s"
-
 [[services]]
 internal_port = 5002
 protocol = "tcp"
@@ -32,6 +26,14 @@ protocol = "tcp"
 [[services.ports]]
 handlers = []
 port = 5002
+
+[[services]]
+internal_port = 5003
+protocol = "tcp"
+
+[[services.ports]]
+handlers = []
+port = 5003
 
 [services.concurrency]
 hard_limit = 25

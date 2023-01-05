@@ -14,6 +14,7 @@ defmodule Protohackers.EchoServer do
     {:ok, supervisor} = Task.Supervisor.start_link(max_children: 100)
 
     listen_options = [
+      ifaddr: {0, 0, 0, 0},
       mode: :binary,
       active: false,
       reuseaddr: true,
