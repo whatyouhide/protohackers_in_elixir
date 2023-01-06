@@ -1,5 +1,5 @@
 defmodule Protohackers.PrimeServerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "echoes back JSON" do
     {:ok, socket} = :gen_tcp.connect(~c"localhost", 5002, mode: :binary, active: false)

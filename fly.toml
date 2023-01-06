@@ -35,6 +35,14 @@ protocol = "tcp"
 handlers = []
 port = 5003
 
+[[services]]
+internal_port = 5004
+protocol = "tcp"
+
+[[services.ports]]
+handlers = []
+port = 5004
+
 [services.concurrency]
 hard_limit = 25
 soft_limit = 20

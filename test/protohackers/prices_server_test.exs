@@ -1,5 +1,5 @@
 defmodule Protohackers.PricesServerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "handles queries" do
     {:ok, socket} = :gen_tcp.connect(~c"localhost", 5003, mode: :binary, active: false)
