@@ -43,6 +43,14 @@ protocol = "tcp"
 handlers = []
 port = 5004
 
+[[services]]
+internal_port = 5005
+protocol = "udp"
+
+[[services.ports]]
+handlers = []
+port = 5005
+
 [services.concurrency]
 hard_limit = 25
 soft_limit = 20
