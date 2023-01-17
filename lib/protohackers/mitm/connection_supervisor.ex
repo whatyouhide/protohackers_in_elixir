@@ -1,10 +1,12 @@
 defmodule Protohackers.MITM.ConnectionSupervisor do
   use DynamicSupervisor
 
+  @spec start_link(keyword()) :: Supervisor.on_start()
   def start_link([] = _opts) do
     DynamicSupervisor.start_link(__MODULE__, :no_args, name: __MODULE__)
   end
 
+  @spec start_child(:gen_tcp.socket()) :: DynamicSupervisor.on_start_child()
   def start_child(socket) do
     child_spec = {Protohackers.MITM.Connection, socket}
 

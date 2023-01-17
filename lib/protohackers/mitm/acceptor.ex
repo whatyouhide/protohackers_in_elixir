@@ -3,10 +3,12 @@ defmodule Protohackers.MITM.Acceptor do
 
   require Logger
 
+  @spec start_link(keyword()) :: GenServer.on_start()
   def start_link(opts) do
     Task.start_link(__MODULE__, :run, [Keyword.fetch!(opts, :port)])
   end
 
+  @spec run(:inet.port_number()) :: no_return()
   def run(port) do
     case :gen_tcp.listen(port, [
            :binary,

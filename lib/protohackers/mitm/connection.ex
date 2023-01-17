@@ -3,6 +3,7 @@ defmodule Protohackers.MITM.Connection do
 
   require Logger
 
+  @spec start_link(:gen_tcp.socket()) :: GenServer.on_start()
   def start_link(incoming_socket) do
     GenServer.start_link(__MODULE__, incoming_socket)
   end
