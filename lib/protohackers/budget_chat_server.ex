@@ -3,14 +3,15 @@ defmodule Protohackers.BudgetChatServer do
 
   require Logger
 
-  def start_link([] = _opts) do
-    GenServer.start_link(__MODULE__, :no_state)
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
   end
 
   defstruct [:listen_socket, :supervisor, :ets]
 
   @impl true
-  def init(:no_state) do
+  def init(opts) do
+    port = Keyword.fetch!(opts, :port)
     {:ok, supervisor} = Task.Supervisor.start_link(max_children: 100)
 
     ets = :ets.new(__MODULE__, [:public])
@@ -25,9 +26,9 @@ defmodule Protohackers.BudgetChatServer do
       buffer: 1024 * 100
     ]
 
-    case :gen_tcp.listen(5004, listen_options) do
+    case :gen_tcp.listen(port, listen_options) do
       {:ok, listen_socket} ->
-        Logger.info("Starting budget chat server on port 5004")
+        Logger.info("Started server on port #{port}")
         state = %__MODULE__{listen_socket: listen_socket, supervisor: supervisor, ets: ets}
         {:ok, state, {:continue, :accept}}
 

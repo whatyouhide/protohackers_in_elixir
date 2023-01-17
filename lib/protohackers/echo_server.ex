@@ -3,14 +3,15 @@ defmodule Protohackers.EchoServer do
 
   require Logger
 
-  def start_link([] = _opts) do
-    GenServer.start_link(__MODULE__, :no_state)
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
   end
 
   defstruct [:listen_socket, :supervisor]
 
   @impl true
-  def init(:no_state) do
+  def init(opts) do
+    port = Keyword.fetch!(opts, :port)
     {:ok, supervisor} = Task.Supervisor.start_link(max_children: 100)
 
     listen_options = [
@@ -21,9 +22,9 @@ defmodule Protohackers.EchoServer do
       exit_on_close: false
     ]
 
-    case :gen_tcp.listen(5001, listen_options) do
+    case :gen_tcp.listen(port, listen_options) do
       {:ok, listen_socket} ->
-        Logger.info("Starting echo server on port 5001")
+        Logger.info("Staretd server on port #{port}")
         state = %__MODULE__{listen_socket: listen_socket, supervisor: supervisor}
         {:ok, state, {:continue, :accept}}
 

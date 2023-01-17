@@ -3,14 +3,16 @@ defmodule Protohackers.UDPServer do
 
   require Logger
 
-  def start_link([] = _opts) do
-    GenServer.start_link(__MODULE__, :no_state)
+  def start_link(opts) do
+    GenServer.start_link(__MODULE__, opts)
   end
 
   defstruct [:socket, store: %{"version" => "Protohackers in Elixir 1.0"}]
 
   @impl true
-  def init(:no_state) do
+  def init(opts) do
+    port = Keyword.fetch!(opts, :port)
+
     address =
       case System.fetch_env("FLY_APP_NAME") do
         {:ok, _} ->
@@ -21,7 +23,7 @@ defmodule Protohackers.UDPServer do
           {0, 0, 0, 0}
       end
 
-    Logger.info("Starting UDP server on #{:inet.ntoa(address)}:5005")
+    Logger.info("Started server on #{:inet.ntoa(address)}:#{port}")
 
     case :gen_udp.open(5005, [:binary, active: false, recbuf: 1000, ip: address]) do
       {:ok, socket} ->

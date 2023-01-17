@@ -8,12 +8,12 @@ defmodule Protohackers.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      Protohackers.EchoServer,
-      Protohackers.PrimeServer,
-      Protohackers.PricesServer,
-      Protohackers.BudgetChatServer,
-      Protohackers.UDPServer,
-      Protohackers.MITM.Supervisor
+      {Protohackers.EchoServer, port: 5001},
+      {Protohackers.PrimeServer, port: 5002},
+      {Protohackers.PricesServer, port: 5003},
+      {Protohackers.BudgetChatServer, port: 5004},
+      {Protohackers.UDPServer, port: 5005},
+      {Protohackers.MITM.Supervisor, port: 5006}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -3,12 +3,12 @@ defmodule Protohackers.MITM.Acceptor do
 
   require Logger
 
-  def start_link([] = _opts) do
-    Task.start_link(__MODULE__, :run, [])
+  def start_link(opts) do
+    Task.start_link(__MODULE__, :run, [Keyword.fetch!(opts, :port)])
   end
 
-  def run do
-    case :gen_tcp.listen(5006, [
+  def run(port) do
+    case :gen_tcp.listen(port, [
            :binary,
            ifaddr: {0, 0, 0, 0},
            active: :once,
@@ -16,11 +16,11 @@ defmodule Protohackers.MITM.Acceptor do
            reuseaddr: true
          ]) do
       {:ok, listen_socket} ->
-        Logger.info("MITM server listening on port 5006")
+        Logger.info("MITM server listening on port #{port}")
         accept_loop(listen_socket)
 
       {:error, reason} ->
-        raise "failed to listen on port 5006: #{inspect(reason)}"
+        raise "failed to listen on port #{port}: #{inspect(reason)}"
     end
   end
 
