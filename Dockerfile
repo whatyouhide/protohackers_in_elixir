@@ -5,6 +5,7 @@ FROM ${BUILDER_IMAGE} AS builder
 
 # Set env variables
 ENV MIX_ENV="prod"
+ENV LOG_LEVEL="debug"
 
 # Install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
@@ -15,6 +16,8 @@ WORKDIR /app
 # Install Hex and rebar3
 RUN mix do local.hex --force, local.rebar --force
 
+# Copy configuration
+COPY config config
 
 # Install Mix dependencies
 COPY mix.exs ./

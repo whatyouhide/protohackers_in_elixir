@@ -6,7 +6,6 @@ kill_timeout = 5
 processes = []
 
 [env]
-LOG_LEVEL = "warn"
 
 [experimental]
 allowed_public_ports = []
@@ -60,7 +59,15 @@ protocol = "tcp"
 handlers = []
 port = 5006
 
+[[services]]
+internal_port = 5007
+protocol = "tcp"
+
+[[services.ports]]
+handlers = []
+port = 5007
+
 [services.concurrency]
-hard_limit = 25
-soft_limit = 20
+hard_limit = 250
+soft_limit = 200
 type = "connections"

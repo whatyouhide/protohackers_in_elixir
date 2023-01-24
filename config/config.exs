@@ -9,4 +9,4 @@ log_level =
 
 config :logger, level: log_level
 
-config :logger, :console, metadata: [:module]
+config :logger, :console, metadata: [:module, :type, :road, :mile]
