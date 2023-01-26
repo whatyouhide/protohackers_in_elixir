@@ -105,39 +105,45 @@ defmodule Protohackers.SpeedDaemon.CentralTicketDispatcher do
   end
 
   defp dispatch_tickets_to_available_dispatchers(state, road_id) do
-    case Registry.lookup(DispatchersRegistry, road_id) do
-      [] ->
-        Logger.debug("No dispatcher for road #{road_id}, storing tickets for later")
-        state
-
-      dispatchers ->
-        {dispatcher_pid, _} = Enum.random(dispatchers)
-        %Road{} = road = Map.fetch!(state.roads, road_id)
-
-        sent_tickets_per_day =
-          Enum.reduce(
-            road.pending_tickets,
+    case Map.fetch(state.roads, road_id) do
+      {:ok, %Road{} = road} ->
+        {tickets_left_to_dispatch, sent_tickets_per_day} =
+          Enum.flat_map_reduce(
+            state.roads[road_id].pending_tickets,
             state.sent_tickets_per_day,
-            fn %Message.Ticket{} = ticket, acc ->
-              ticket_start_day = floor(ticket.timestamp1 / 86_400)
-              ticket_end_day = floor(ticket.timestamp2 / 86_400)
+            fn ticket, acc ->
+              case Registry.lookup(DispatchersRegistry, road.id) do
+                [] ->
+                  Logger.debug("No dispatchers available for road #{ticket.road}, keeping ticket")
+                  {[ticket], acc}
 
-              if {ticket_start_day, ticket.plate} in acc or {ticket_end_day, ticket.plate} in acc do
-                Logger.debug(
-                  "Not sending ticket because it was already sent for this day: #{inspect(ticket)}"
-                )
+                dispatchers ->
+                  ticket_start_day = floor(ticket.timestamp1 / 86_400)
+                  ticket_end_day = floor(ticket.timestamp2 / 86_400)
 
-                acc
-              else
-                GenServer.cast(dispatcher_pid, {:dispatch_ticket, ticket})
-                sent = for day <- ticket_start_day..ticket_end_day, do: {day, ticket.plate}
-                acc ++ sent
+                  if {ticket_start_day, ticket.plate} in acc or
+                       {ticket_end_day, ticket.plate} in acc do
+                    Logger.debug(
+                      "Not sending ticket because it was already sent for this day: #{inspect(ticket)}"
+                    )
+
+                    {[], acc}
+                  else
+                    {pid, _} = Enum.random(dispatchers)
+                    GenServer.cast(pid, {:dispatch_ticket, ticket})
+
+                    sent = for day <- ticket_start_day..ticket_end_day, do: {day, ticket.plate}
+                    {[], acc ++ sent}
+                  end
               end
             end
           )
 
         state = put_in(state.sent_tickets_per_day, sent_tickets_per_day)
-        state = put_in(state.roads[road_id].pending_tickets, [])
+        state = put_in(state.roads[road_id].pending_tickets, tickets_left_to_dispatch)
+        state
+
+      :error ->
         state
     end
   end
