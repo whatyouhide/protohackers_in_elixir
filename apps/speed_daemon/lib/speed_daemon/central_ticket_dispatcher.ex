@@ -1,7 +1,7 @@
-defmodule Protohackers.SpeedDaemon.CentralTicketDispatcher do
+defmodule SpeedDaemon.CentralTicketDispatcher do
   use GenServer
 
-  alias Protohackers.SpeedDaemon.{DispatchersRegistry, Message}
+  alias SpeedDaemon.{DispatchersRegistry, Message}
 
   require Logger
 

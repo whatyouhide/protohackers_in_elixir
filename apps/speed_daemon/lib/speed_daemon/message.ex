@@ -1,4 +1,4 @@
-defmodule Protohackers.SpeedDaemon.Message do
+defmodule SpeedDaemon.Message do
   # Client -> server
 
   defmodule Plate do

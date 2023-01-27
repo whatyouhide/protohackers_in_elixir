@@ -3,6 +3,8 @@ ARG RUNNER_IMAGE="debian:bullseye-20220801-slim"
 
 FROM ${BUILDER_IMAGE} AS builder
 
+ARG APPLICATION="speed_daemon"
+
 # Set env variables
 ENV MIX_ENV="prod"
 ENV LOG_LEVEL="debug"
@@ -16,24 +18,28 @@ WORKDIR /app
 # Install Hex and rebar3
 RUN mix do local.hex --force, local.rebar --force
 
-# Copy configuration
+# Copy configuration from this app and all children
 COPY config config
 
-# Install Mix dependencies
+# Copy mix.exs and mix.lock from all children applications
 COPY mix.exs ./
+COPY apps/${APPLICATION}/mix.exs apps/${APPLICATION}/mix.exs
+COPY apps/${APPLICATION}/mix.lock apps/${APPLICATION}/mix.lock
 RUN mix do deps.get --only $MIX_ENV, deps.compile
 
-# Compile the release
-COPY lib lib
+# Copy lib for all applications and compile
+COPY apps/${APPLICATION}/lib apps/${APPLICATION}/lib
 RUN mix compile
 
 # Changes to config/runtime.exs don't require recompiling the code
-COPY rel rel
-RUN mix release
+COPY apps/${APPLICATION}/rel apps/${APPLICATION}/rel
+RUN mix release ${APPLICATION}
 
 ## Runner image
 
 FROM ${RUNNER_IMAGE}
+
+ENV APPLICATION="speed_daemon"
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
@@ -49,4 +55,4 @@ WORKDIR /app
 
 COPY --from=builder /app/_build/prod/rel ./
 
-CMD /app/protohackers/bin/protohackers start
+CMD /app/${APPLICATION}/bin/${APPLICATION} start

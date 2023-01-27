@@ -1,7 +1,7 @@
-defmodule Protohackers.SpeedDaemon.IntegrationTest do
+defmodule SpeedDaemon.IntegrationTest do
   use ExUnit.Case
 
-  alias Protohackers.SpeedDaemon.Message
+  alias SpeedDaemon.Message
 
   test "ticketing a single car" do
     {:ok, camera1} = :gen_tcp.connect(~c"localhost", 5007, [:binary, active: true])

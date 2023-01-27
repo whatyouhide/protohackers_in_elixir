@@ -6,66 +6,20 @@ kill_timeout = 5
 processes = []
 
 [env]
+LOG_LEVEL = "info"
+TCP_PORT = "5000"
 
 [experimental]
 allowed_public_ports = []
 auto_rollback = true
 
 [[services]]
-internal_port = 5001
+internal_port = 5000
 protocol = "tcp"
 
 [[services.ports]]
 handlers = []
-port = 5001
-
-[[services]]
-internal_port = 5002
-protocol = "tcp"
-
-[[services.ports]]
-handlers = []
-port = 5002
-
-[[services]]
-internal_port = 5003
-protocol = "tcp"
-
-[[services.ports]]
-handlers = []
-port = 5003
-
-[[services]]
-internal_port = 5004
-protocol = "tcp"
-
-[[services.ports]]
-handlers = []
-port = 5004
-
-[[services]]
-internal_port = 5005
-protocol = "udp"
-
-[[services.ports]]
-handlers = []
-port = 5005
-
-[[services]]
-internal_port = 5006
-protocol = "tcp"
-
-[[services.ports]]
-handlers = []
-port = 5006
-
-[[services]]
-internal_port = 5007
-protocol = "tcp"
-
-[[services.ports]]
-handlers = []
-port = 5007
+port = 5000
 
 [services.concurrency]
 hard_limit = 250

@@ -1,4 +1,4 @@
-defmodule Protohackers.SpeedDaemon.Supervisor do
+defmodule SpeedDaemon.Supervisor do
   use Supervisor
 
   @spec start_link(keyword()) :: Supervisor.on_start()
@@ -9,16 +9,16 @@ defmodule Protohackers.SpeedDaemon.Supervisor do
   @impl true
   def init(opts) do
     registry_opts = [
-      name: Protohackers.SpeedDaemon.DispatchersRegistry,
+      name: SpeedDaemon.DispatchersRegistry,
       keys: :duplicate,
-      listeners: [Protohackers.SpeedDaemon.CentralTicketDispatcher]
+      listeners: [SpeedDaemon.CentralTicketDispatcher]
     ]
 
     children = [
       {Registry, registry_opts},
-      {Protohackers.SpeedDaemon.CentralTicketDispatcher, []},
-      {Protohackers.SpeedDaemon.ConnectionSupervisor, []},
-      {Protohackers.SpeedDaemon.Acceptor, opts}
+      {SpeedDaemon.CentralTicketDispatcher, []},
+      {SpeedDaemon.ConnectionSupervisor, []},
+      {SpeedDaemon.Acceptor, opts}
     ]
 
     Supervisor.init(children, strategy: :rest_for_one)

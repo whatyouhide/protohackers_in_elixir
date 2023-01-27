@@ -1,7 +1,7 @@
-defmodule Protohackers.SpeedDaemon.MessageTest do
+defmodule SpeedDaemon.MessageTest do
   use ExUnit.Case, async: true
 
-  alias Protohackers.SpeedDaemon.Message
+  alias SpeedDaemon.Message
 
   describe "encode/1 + decode/1 for all messages" do
     test "Plate" do

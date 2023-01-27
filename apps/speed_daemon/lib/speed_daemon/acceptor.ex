@@ -1,4 +1,4 @@
-defmodule Protohackers.SpeedDaemon.Acceptor do
+defmodule SpeedDaemon.Acceptor do
   use Task, restart: :transient
 
   require Logger
@@ -17,7 +17,7 @@ defmodule Protohackers.SpeedDaemon.Acceptor do
            reuseaddr: true
          ]) do
       {:ok, listen_socket} ->
-        Logger.info("SpeedDaemon server listening on port #{port}")
+        Logger.info("Listening on port #{port}")
         accept_loop(listen_socket)
 
       {:error, reason} ->
@@ -28,7 +28,7 @@ defmodule Protohackers.SpeedDaemon.Acceptor do
   defp accept_loop(listen_socket) do
     case :gen_tcp.accept(listen_socket) do
       {:ok, socket} ->
-        {:ok, _} = Protohackers.SpeedDaemon.ConnectionSupervisor.start_child(socket)
+        {:ok, _} = SpeedDaemon.ConnectionSupervisor.start_child(socket)
         accept_loop(listen_socket)
 
       {:error, reason} ->

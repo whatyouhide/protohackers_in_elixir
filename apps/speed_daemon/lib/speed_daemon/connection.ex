@@ -1,7 +1,7 @@
-defmodule Protohackers.SpeedDaemon.Connection do
+defmodule SpeedDaemon.Connection do
   use GenServer, restart: :temporary
 
-  alias Protohackers.SpeedDaemon.{CentralTicketDispatcher, DispatchersRegistry, Message}
+  alias SpeedDaemon.{CentralTicketDispatcher, DispatchersRegistry, Message}
 
   require Logger
 

@@ -14,7 +14,6 @@ defmodule Protohackers.Application do
       {Protohackers.BudgetChatServer, port: 5004},
       {Protohackers.UDPServer, port: 5005},
       {Protohackers.MITM.Supervisor, port: 5006},
-      {Protohackers.SpeedDaemon.Supervisor, port: 5007}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

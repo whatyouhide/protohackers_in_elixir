@@ -1,4 +1,4 @@
-defmodule Protohackers.SpeedDaemon.ConnectionSupervisor do
+defmodule SpeedDaemon.ConnectionSupervisor do
   use DynamicSupervisor
 
   @spec start_link(keyword()) :: Supervisor.on_start()
@@ -8,7 +8,7 @@ defmodule Protohackers.SpeedDaemon.ConnectionSupervisor do
 
   @spec start_child(:gen_tcp.socket()) :: DynamicSupervisor.on_start_child()
   def start_child(socket) do
-    child_spec = {Protohackers.SpeedDaemon.Connection, socket}
+    child_spec = {SpeedDaemon.Connection, socket}
 
     with {:ok, conn} <- DynamicSupervisor.start_child(__MODULE__, child_spec),
          :ok <- :gen_tcp.controlling_process(socket, conn) do
