@@ -13,6 +13,9 @@ defmodule Protohackers.MixProject do
         ],
         speed_daemon: [
           applications: [speed_daemon: :permanent]
+        ],
+        line_reversal: [
+          applications: [line_reversal: :permanent]
         ]
       ]
     ]

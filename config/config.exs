@@ -8,4 +8,4 @@ log_level =
   end
 
 config :logger, level: log_level
-config :logger, :console, metadata: [:module]
+config :logger, :console, metadata: [:module, :address, :session, :pid]

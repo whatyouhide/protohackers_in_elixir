@@ -6,8 +6,9 @@ kill_timeout = 5
 processes = []
 
 [env]
-LOG_LEVEL = "info"
+LOG_LEVEL = "debug"
 TCP_PORT = "5000"
+UDP_PORT = "6000"
 
 [experimental]
 allowed_public_ports = []
@@ -20,6 +21,14 @@ protocol = "tcp"
 [[services.ports]]
 handlers = []
 port = 5000
+
+[[services]]
+internal_port = 6000
+protocol = "udp"
+
+[[services.ports]]
+handlers = []
+port = 6000
 
 [services.concurrency]
 hard_limit = 250

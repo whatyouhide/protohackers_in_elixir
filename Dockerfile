@@ -3,11 +3,10 @@ ARG RUNNER_IMAGE="debian:bullseye-20220801-slim"
 
 FROM ${BUILDER_IMAGE} AS builder
 
-ARG APPLICATION="speed_daemon"
+ARG APPLICATION="line_reversal"
 
 # Set env variables
 ENV MIX_ENV="prod"
-ENV LOG_LEVEL="debug"
 
 # Install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
@@ -39,7 +38,7 @@ RUN mix release ${APPLICATION}
 
 FROM ${RUNNER_IMAGE}
 
-ENV APPLICATION="speed_daemon"
+ENV APPLICATION="line_reversal"
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \
