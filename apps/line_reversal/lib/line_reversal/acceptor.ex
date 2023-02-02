@@ -9,9 +9,7 @@ defmodule LineReversal.Acceptor do
   def start_link(options) when is_list(options) do
     ip = Keyword.fetch!(options, :ip)
     port = Keyword.fetch!(options, :port)
-    {:ok, pid} = Task.start_link(__MODULE__, :__accept__, [ip, port])
-    Process.sleep(100)
-    {:ok, pid}
+    Task.start_link(__MODULE__, :__accept__, [ip, port])
   end
 
   ## Private

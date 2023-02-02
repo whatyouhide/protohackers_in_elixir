@@ -82,7 +82,7 @@ defmodule LineReversal.LRCP.Socket do
       :peer_ip,
       :peer_port,
       :session_id,
-      :client,
+      :controlling_process,
       :idle_timer_ref,
       in_position: 0,
       out_position: 0,
@@ -133,7 +133,7 @@ defmodule LineReversal.LRCP.Socket do
 
   def handle_call({:controlling_process, pid}, _from, %State{} = state) do
     Logger.debug("Controlling process set to #{inspect(pid)}")
-    state = put_in(state.client, pid)
+    state = put_in(state.controlling_process, pid)
 
     {messages, state} =
       get_and_update_in(state.out_message_queue, fn queue ->
@@ -256,9 +256,9 @@ defmodule LineReversal.LRCP.Socket do
   end
 
   defp send_or_queue_message(%State{} = state, message) do
-    if state.client do
+    if state.controlling_process do
       Logger.debug("Sending message to client: #{inspect(message)}")
-      Kernel.send(state.client, message)
+      Kernel.send(state.controlling_process, message)
       state
     else
       Logger.debug("Queueing message: #{inspect(message)}")
