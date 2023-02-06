@@ -3,7 +3,7 @@ ARG RUNNER_IMAGE="debian:bullseye-20220801-slim"
 
 FROM ${BUILDER_IMAGE} AS builder
 
-ARG APPLICATION="line_reversal"
+ARG APPLICATION="isl"
 
 # Set env variables
 ENV MIX_ENV="prod"
@@ -38,7 +38,7 @@ RUN mix release ${APPLICATION}
 
 FROM ${RUNNER_IMAGE}
 
-ENV APPLICATION="line_reversal"
+ENV APPLICATION="isl"
 
 # Install dependencies
 RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales \

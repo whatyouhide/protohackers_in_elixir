@@ -16,6 +16,9 @@ defmodule Protohackers.MixProject do
         ],
         line_reversal: [
           applications: [line_reversal: :permanent]
+        ],
+        isl: [
+          applications: [isl: :permanent]
         ]
       ]
     ]
