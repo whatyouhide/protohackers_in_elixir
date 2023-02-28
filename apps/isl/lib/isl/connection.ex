@@ -28,9 +28,6 @@ defmodule ISL.Connection do
     end
   end
 
-  ## Helpers
-
-  # If we don't have a cipher spec, we try to parse one first.
   defp handle_new_data(%__MODULE__{cipher_spec: nil} = state, socket, data) do
     state = update_in(state.buffer, &(&1 <> data))
 
@@ -40,8 +37,6 @@ defmodule ISL.Connection do
     end
   end
 
-  # If we have a cipher spec already, we can decode all incoming data and handle the decoded
-  # data directly.
   defp handle_new_data(%__MODULE__{} = state, socket, data) do
     data = Cipher.apply(data, state.reverse_cipher_spec, state.client_position)
     Logger.debug("Handling decoded data at position #{state.client_position}: #{inspect(data)}")
