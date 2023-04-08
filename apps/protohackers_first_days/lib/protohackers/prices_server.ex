@@ -22,7 +22,8 @@ defmodule Protohackers.PricesServer do
       mode: :binary,
       active: false,
       reuseaddr: true,
-      exit_on_close: false
+      exit_on_close: false,
+      backlog: 100
     ]
 
     case :gen_tcp.listen(port, listen_options) do
